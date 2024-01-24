@@ -37,6 +37,7 @@ public class UI {
         System.out.flush();  
     }  
 
+    //Reads position in Chess format(ie a1)
     public static ChessPosition readChessPosition(Scanner sc) {
         try {
             String s = sc.nextLine();
@@ -49,6 +50,7 @@ public class UI {
         }
     }
 
+    //Prints the board on the screen
     public static void printBoard(ChessPiece[][] pieces) {
         for (int i = 0; i < pieces.length; i++) {
             System.out.print((8 - i) + " ");
@@ -60,18 +62,26 @@ public class UI {
         System.out.println("  a b c d e f g h");
     }
     
+    // Prints the match -> Board + whose turn it is + if there is check
     public static void printMatch(ChessMatch match, List<ChessPiece> captured) {
         printBoard(match.getPieces());
         System.out.println();
         printCapturedPieces(captured);
         System.out.println();
         System.out.println("Turn: " + match.getTurn());
-        System.out.println("Player's turn: " + match.getCurrentPlayer());
-        if (match.getCheck()) {
-            System.out.println("CHECK!");
+        if (!match.getCheckMate()) {
+            System.out.println("Player's turn: " + match.getCurrentPlayer());
+            if (match.getCheck()) {
+                System.out.println("CHECK!");
+            }
+        }
+        else {
+            System.out.println("CHECKMATE!");
+            System.out.println("Winner: " + match.getCurrentPlayer());
         }
     }
     
+    //Prints the board + possible moves for the chosen piece
     public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
         for (int i = 0; i < pieces.length; i++) {
             System.out.print((8 - i) + " ");
@@ -83,6 +93,7 @@ public class UI {
         System.out.println("  a b c d e f g h");
     }
 
+    //Prints the piece based on color and type of piece
     public static void printPiece(ChessPiece piece, boolean background) {
         if (background == true) {
             System.out.print(ANSI_BLUE_BACKGROUND);
